@@ -1,0 +1,36 @@
+---
+jobs:
+- name: mavenjob
+  serial: true
+  plan:
+  - get: git-concourse-build-docker-image
+  - task: mvn-test
+    config: 
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: jrobinson/concourse}
+      run:
+          path: sh
+          args:
+          - -euc
+          - |
+            export clientid=((clientid))
+            export clientkey=((clientkey))
+            export tenantid=((tenantid))
+            export vaulturl=((vaulturl))        
+            git config --global user.email "robinson039@gmail.com"
+            git config --global user.name "James Robinson"
+            git clone ((patwithgitrepo))
+            cd k8s-springboot-azkeyvault
+            mvn clean package 
+            git add target/ . 
+            git commit -m  'new artifact created'
+            git push 
+
+resources:
+- name: git-concourse-build-docker-image
+  type: git
+  source:
+    uri: https://github.com/jrthearchitect/k8s-springboot-azkeyvault.git
+    branch: main

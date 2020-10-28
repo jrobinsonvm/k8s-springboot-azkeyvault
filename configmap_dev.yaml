@@ -4,6 +4,6 @@ metadata:
   name: dev-special-config
   namespace: default
 data:
-  azure_keyvault_client-id: ####################################
-  azure_keyvault_tenant-id: #################################### 
-  azure_keyvault_uri: https://####.vault.azure.net
+  azure_keyvault_client-id: 0a9413e7-5e69-4eb7-b232-27a27a5d465b  #not a secret
+  azure_keyvault_tenant-id: 7c2c3a12-4ac8-4751-9b2b-d8a2ec72c90e  #not a secret 
+  azure_keyvault_uri: https://tkgi.vault.azure.net  #not a secret 

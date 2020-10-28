@@ -1,0 +1,41 @@
+resources:
+# The repo with our Dockerfile
+- name: concourse-examples
+  type: git
+  icon: github
+  source:
+    uri: https://github.com/jrobinsonvm/k8s-springboot-azkeyvault.git
+    branch: main
+
+# Where we will push the image
+- name: spingbootazkvapp
+  type: registry-image
+  icon: docker
+  source:
+    repository: ((image-repo-name))/spingbootazkvapp
+    username: ((registry-username))
+    password: ((registry-password))
+
+jobs:
+- name: build-and-push
+  plan:
+  - get: concourse-examples
+  - task: build-task-image
+    privileged: true
+    config:
+      platform: linux
+      image_resource:
+        type: registry-image
+        source:
+          repository: vito/oci-build-task
+      inputs:
+      - name: concourse-examples
+      outputs:
+      - name: image
+      params:
+        CONTEXT: concourse-examples
+      run:
+        path: build
+  - put: spingbootazkvapp
+    params:
+      image: image/image.tar

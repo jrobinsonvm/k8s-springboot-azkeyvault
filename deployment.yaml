@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: springbootazkv
-          image: jrobinson/springazurekv:latest
+          image: jrobinson/spingbootazkvapp:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 5432
